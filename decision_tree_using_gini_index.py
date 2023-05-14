@@ -25,7 +25,7 @@ def decision_tree_classification_gini(data):
 
     return y_train, y_train_pred, y_test, y_pred
 
-def evaluate_model(y_train, y_train_pred, y_test, y_pred):
+def evaluate_model_gini_index(y_train, y_train_pred, y_test, y_pred):
     conf_matrix_train = confusion_matrix(y_train, y_train_pred)
     conf_matrix_test = confusion_matrix(y_test, y_pred)
     acc_train = accuracy_score(y_train, y_train_pred)

@@ -2,7 +2,7 @@ from sklearn.model_selection import train_test_split, KFold, cross_val_predict
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score
 
-def decision_tree_classification(data):
+def decision_tree_classification_gain(data):
     # Prepare the dataset
     X = data.drop('default payment next month', axis=1)
     y = data['default payment next month']
@@ -25,7 +25,7 @@ def decision_tree_classification(data):
 
     return y_train, y_train_pred, y_test, y_pred
 
-def evaluate_model(y_train, y_train_pred, y_test, y_pred):
+def evaluate_model_gain_ratio(y_train, y_train_pred, y_test, y_pred):
     conf_matrix_train = confusion_matrix(y_train, y_train_pred)
     conf_matrix_test = confusion_matrix(y_test, y_pred)
     acc_train = accuracy_score(y_train, y_train_pred)
