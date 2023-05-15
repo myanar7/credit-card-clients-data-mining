@@ -6,6 +6,7 @@ from decision_tree_using_gain_ratio import decision_tree_classification_gain, ev
 from decision_tree_using_gini_index import decision_tree_classification_gini, evaluate_model_gini_index
 from ann_using_1_hidden_layer import ann_1_hidden_layer_classification, evaluate_ann_1_hidden_layer
 from ann_using_2_hidden_layers import ann_2_hidden_layers_classification, evaluate_ann_2_hidden_layers
+from svm import svm_classification, evaluate_model_svm
 from naive_Bayes import evaluate_model_naive_bayes, naive_bayes_classification
 
 def main():
@@ -33,6 +34,32 @@ def main():
     plt.title("Correlation Matrix - Using Clipped Data")
     plt.savefig(os.path.join("figures", "correlation_matrix_clipped.png"), dpi=300)
     plt.close()
+
+    # Support Vector Machines layer classification
+    y_train_svm, y_train_pred_svm, y_test_svm, y_pred_svm = svm_classification(data_clipped)
+
+    # Evaluate model
+    results_svm = evaluate_model_svm(y_train_svm, y_train_pred_svm, y_test_svm, y_pred_svm)
+    # Calculate error rates
+    error_rate_train = 1 - results_svm['train']['accuracy']
+    error_rate_test = 1 - results_svm['test']['accuracy']
+
+    print("\SVM Classification")
+    print("-------------------------")
+    print("Training set results:")
+    print("Accuracy:", results_svm['train']['accuracy'])
+    print("Recall:", results_svm['train']['recall'])
+    print("Precision:", results_svm['train']['precision'])
+    print("F1 Score:", results_svm['train']['f1_score'])
+
+    print("\nTest set results:")
+    print("Accuracy:", results_svm['test']['accuracy'])
+    print("Recall:", results_svm['test']['recall'])
+    print("Precision:", results_svm['test']['precision'])
+    print("F1 Score:", results_svm['test']['f1_score'])
+    
+    print("\nError Rate (Training):", error_rate_train)
+    print("Error Rate (Test):", error_rate_test)
 
     # Decision tree using gain ratio classification
     y_train_gain, y_train_pred_gain, y_test_gain, y_pred_gain = decision_tree_classification_gain(data_clipped)
