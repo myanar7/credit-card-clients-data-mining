@@ -5,6 +5,11 @@ def load_data(filepath):
     return data
 
 def preprocess_data(data):
+
+    # Rename 'PAY_0' to 'PAY_1'
+    if 'PAY_0' in data.columns:
+        data = data.rename(columns={'PAY_0': 'PAY_1'})
+
     # Fill missing values (if any) with median
     if data.isnull().sum().any():
         data.fillna(data.median(numeric_only=True), inplace=True)
@@ -24,5 +29,11 @@ def preprocess_data(data):
 
     data_clipped = data.copy()
     data_clipped[cols_to_process] = data[cols_to_process].clip(lower_bound, upper_bound, axis=1)
+
+    # Remove the 'ID' column
+    if 'ID' in data_clipped.columns:
+        data_clipped = data_clipped.drop(['ID'], axis=1)
+    
+    print(data_clipped.head())
 
     return data_clipped
