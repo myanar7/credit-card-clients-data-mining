@@ -1,6 +1,7 @@
 from sklearn.model_selection import train_test_split, KFold, cross_val_predict
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score
+from sklearn.ensemble import AdaBoostClassifier
 
 def decision_tree_classification_gini(data):
     # Prepare the dataset
@@ -11,7 +12,10 @@ def decision_tree_classification_gini(data):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
     # Create the decision tree classifier with Gini index criterion
-    clf = DecisionTreeClassifier(criterion="gini", random_state=42)
+    tree = DecisionTreeClassifier(criterion="gini", random_state=42)
+    
+    # Implement AdaBoost
+    clf = AdaBoostClassifier(estimator=tree, n_estimators=50, random_state=42)
 
     # Train the model using cross-validation on the training set
     kf = KFold(n_splits=10, shuffle=True, random_state=42)
@@ -24,6 +28,7 @@ def decision_tree_classification_gini(data):
     y_pred = clf.predict(X_test)
 
     return y_train, y_train_pred, y_test, y_pred
+
 
 def evaluate_model_gini_index(y_train, y_train_pred, y_test, y_pred):
     conf_matrix_train = confusion_matrix(y_train, y_train_pred)
