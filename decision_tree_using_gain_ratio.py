@@ -1,6 +1,7 @@
 from sklearn.model_selection import train_test_split, KFold, cross_val_predict
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score
+from sklearn.ensemble import BaggingClassifier
 
 def decision_tree_classification_gain(data):
     # Prepare the dataset
@@ -11,7 +12,10 @@ def decision_tree_classification_gain(data):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
     # Create the decision tree classifier with gain ratio criterion
-    clf = DecisionTreeClassifier(criterion="entropy", random_state=42)
+    tree = DecisionTreeClassifier(criterion="entropy", random_state=42)
+    
+    # Implement bagging
+    clf = BaggingClassifier(estimator=tree, n_estimators=10, random_state=42)
 
     # Train the model using cross-validation on the training set
     kf = KFold(n_splits=10, shuffle=True, random_state=42)

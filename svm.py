@@ -1,9 +1,11 @@
+from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split, KFold, cross_val_predict
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score
-from sklearn.ensemble import AdaBoostClassifier
 
-def decision_tree_classification_gini(data):
+clf = SVC(kernel='rbf', random_state=42)
+
+def svm_classification(data):
     # Prepare the dataset
     X = data.drop('default payment next month', axis=1)
     y = data['default payment next month']
@@ -11,11 +13,8 @@ def decision_tree_classification_gini(data):
     # Split data into training and test sets using holdout method
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
-    # Create the decision tree classifier with Gini index criterion
-    tree = DecisionTreeClassifier(criterion="gini", random_state=42)
-    
-    # Implement AdaBoost
-    clf = AdaBoostClassifier(estimator=tree, n_estimators=50, random_state=42)
+    # Create the SVM classifier with balanced class weights
+    clf = SVC(kernel='rbf', class_weight='balanced', random_state=42)
 
     # Train the model using cross-validation on the training set
     kf = KFold(n_splits=10, shuffle=True, random_state=42)
@@ -29,8 +28,7 @@ def decision_tree_classification_gini(data):
 
     return y_train, y_train_pred, y_test, y_pred
 
-
-def evaluate_model_gini_index(y_train, y_train_pred, y_test, y_pred):
+def evaluate_model_svm(y_train, y_train_pred, y_test, y_pred):
     conf_matrix_train = confusion_matrix(y_train, y_train_pred)
     conf_matrix_test = confusion_matrix(y_test, y_pred)
     acc_train = accuracy_score(y_train, y_train_pred)
