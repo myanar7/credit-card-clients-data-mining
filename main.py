@@ -6,6 +6,7 @@ from decision_tree_using_gain_ratio import decision_tree_classification_gain, ev
 from decision_tree_using_gini_index import decision_tree_classification_gini, evaluate_model_gini_index
 from ann_using_1_hidden_layer import ann_1_hidden_layer_classification, evaluate_ann_1_hidden_layer
 from ann_using_2_hidden_layers import ann_2_hidden_layers_classification, evaluate_ann_2_hidden_layers
+from naive_Bayes import evaluate_model_naive_bayes, naive_bayes_classification
 
 def main():
     # Load and preprocess data
@@ -138,6 +139,31 @@ def main():
 
     print("\nError Rate (Training):", 1 - results_ann_2['train']['accuracy'])
     print("Error Rate (Test):", 1 - results_ann_2['test']['accuracy'])
+# Naive Bayes classification
+    y_train_naive, y_train_pred_naive, y_test_naive, y_pred_naive = naive_bayes_classification(data_clipped)
 
+# Evaluate model
+    results_naive = evaluate_model_naive_bayes(y_train_naive, y_train_pred_naive, y_test_naive, y_pred_naive)
+
+    print("\nNaive Bayes Classification")
+    print("-------------------------")
+    print("Training set results:")
+    print("Confusion Matrix:")
+    print(results_naive['train']['confusion_matrix'])
+    print("Accuracy:", results_naive['train']['accuracy'])
+    print("Recall:", results_naive['train']['recall'])
+    print("Precision:", results_naive['train']['precision'])
+    print("F1 Score:", results_naive['train']['f1_score'])
+
+    print("\nTest set results:")
+    print("Confusion Matrix:")
+    print(results_naive['test']['confusion_matrix'])
+    print("Accuracy:", results_naive['test']['accuracy'])
+    print("Recall:", results_naive['test']['recall'])
+    print("Precision:", results_naive['test']['precision'])
+    print("F1 Score:", results_naive['test']['f1_score'])
+
+    print("\nError Rate (Training):", 1 - results_naive['train']['accuracy'])
+    print("Error Rate (Test):", 1 - results_naive['test']['accuracy'])    
 if __name__ == "__main__":
     main()
